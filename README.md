@@ -14,6 +14,29 @@ FastAPI + Celery + Redis demo for running parallel background tasks.
 docker compose up --build
 ```
 
+Open `http://localhost:8000` (interactive UI) or `http://localhost:8000/docs` (OpenAPI).
+
+### Reviewer quick check (curl)
+
+```bash
+curl -s http://localhost:8000/health
+curl -s -X POST http://localhost:8000/jobs \
+  -H 'Content-Type: application/json' \
+  -d '{"numbers":[1,2,3]}'
+# then poll with the returned job_id:
+curl -s http://localhost:8000/jobs/<job_id>
+```
+
+### Tests (no Redis required)
+
+```bash
+python -m venv .venv && source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements-dev.txt
+pytest -q
+```
+
+See `NOTES.md` for design tradeoffs and things that broke while wiring this up.
+
 ### Flow
 
 1. `POST /jobs` submits numbers.
