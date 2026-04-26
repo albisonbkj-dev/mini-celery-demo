@@ -13,6 +13,12 @@ app = FastAPI(title="Mini Celery Demo")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
+@app.get("/health")
+def health():
+    """Lightweight check for load balancers and compose; does not verify Redis."""
+    return {"status": "ok"}
+
+
 @app.get("/")
 def root():
     return FileResponse("app/static/index.html")

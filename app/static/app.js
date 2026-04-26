@@ -19,8 +19,6 @@ async function pollJob(jobId) {
   const res = await fetch(`/jobs/${jobId}`);
   const data = await res.json();
 
-  console.log(data);
-
   statusEl.textContent = data.status;
 
   if (data.status === "SUCCESS" || data.status === "FAILURE") {
